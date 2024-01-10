@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>APO2073 플레이어 정보</title>
+</head>
+<body>
+    <h1>APO2073 플레이어 정보</h1>
+    <div id="playerInfo"></div>
+
+    <script>
+        const playerName = 'APO2073';
+        const mojangApiUrl = `https://api.mojang.com/users/profiles/minecraft/${playerName}`;
+
+        fetch(mojangApiUrl)
+            .then(response => response.json())
+            .then(data => {
+                const playerUUID = data.id;
+                const playerSkinUrl = `https://crafatar.com/skins/${playerUUID}`;
+                const playerInfoElement = document.getElementById('playerInfo');
+
+                playerInfoElement.innerHTML = `
+                    <p>플레이어 이름: ${playerName}</p>
+                    <p>플레이어 UUID: ${playerUUID}</p>
+                    <img src="${playerSkinUrl}" alt="플레이어 스킨">
+                    <!-- 기타 필요한 정보들을 여기에 표시 -->
+                `;
+            })
+            .catch(error => console.error('Mojang API에서 정보를 가져오는 중 오류 발생:', error));
+    </script>
+</body>
+</html>
