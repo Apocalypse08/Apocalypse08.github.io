@@ -1,0 +1,83 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f3f3f3;
+    margin: 0;
+    padding: 0;
+}
+
+.header {
+    text-align: center;
+    padding: 20px;
+    padding-top: 50px;
+    font-family: 'GUGI',cursive;
+    background-image: url('https://mc-heads.net/avatar/APO2073/600');
+    background-size: cover;
+    background-position: center 400px;
+    color: black;
+    margin-bottom: 20px;
+    height: 200px;
+}
+
+.server-info-container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.survive-server-category {
+    border: 2px solid red;
+    padding: 10px 20px;
+    width: fit-content;
+    border-radius: 6px;
+    margin-bottom: 20px;
+    display: inline-block;
+    text-align: center;
+}
+
+.aweek-server-category {
+    border: 2px solid gray;
+    padding: 10px 20px;
+    width: fit-content;
+    border-radius: 6px;
+    margin-bottom: 20px;
+    display: inline-block;
+    text-align: center;
+}
+
+.server-icon {
+    max-width: 100px;
+    border-radius: 50%;
+    margin-bottom: 20px;
+    display: block;
+    margin: 0 auto;
+}
+
+.server-info {
+    text-align: center;
+}
+
+.server-info h3 {
+    margin-top: 0;
+}
+
+.error-message {
+    color: red;
+    text-align: center;
+}
+
+.move-to-info {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.info-link {
+    text-decoration: none;
+    background-color: #4CAF50;
+    padding: 10px 20px;
+    color: white;
+    border-radius: 5px;
+}
