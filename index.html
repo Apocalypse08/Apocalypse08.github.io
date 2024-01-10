@@ -2,79 +2,7 @@
 <html>
     <head>
         <title>아포섭 정보</title>
-        <style>
-            body {
-                font-family: Arial, sans-serif;
-                background-color: #f3f3f3;
-                margin: 0;
-                padding: 0;
-            }
-
-            .header {
-                text-align: center;
-                padding: 20px;
-                padding-top: 50px;
-                font-family: 'GUGI',cursive;
-                background-image: url('https://mc-heads.net/avatar/APO2073/600');
-                background-size: cover;
-                background-position: center 400px;
-                color: black;
-                margin-bottom: 20px;
-                height: 200px;
-            }
-
-            .server-info-container {
-                max-width: 800px;
-                margin: 20px auto;
-                padding: 20px;
-                background-color: #fff;
-                border-radius: 8px;
-                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-                text-align: center;
-            }
-
-            .survive-server-category {
-                border: 2px solid red;
-                padding: 10px 20px;
-                width: fit-content;
-                border-radius: 6px;
-                margin-bottom: 20px;
-                display: inline-block;
-                text-align: center;
-            }
-
-            .aweek-server-category {
-                border: 2px solid gray;
-                padding: 10px 20px;
-                width: fit-content;
-                border-radius: 6px;
-                margin-bottom: 20px;
-                display: inline-block;
-                text-align: center;
-            }
-
-            .server-icon {
-                max-width: 100px;
-                border-radius: 50%;
-                margin-bottom: 20px;
-                display: block;
-                margin: 0 auto;
-            }
-
-            .server-info {
-                text-align: center;
-            }
-
-            .server-info h3 {
-                margin-top: 0;
-            }
-
-            .error-message {
-                color: red;
-                text-align: center;
-            }
-        </style>
-        <link href="https://fonts.googleapis.com/css2?family=Gugi&display=swap" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="Ast.css">
     </head>
     <body>
         <div class="header">
@@ -83,90 +11,19 @@
         <div class="server-info-container">
             <div class="survive-server-category" style="margin-top: 20px;">
                 <h2>야생섭</h2>
-            <img
-                id="serverIcon"
-                class="server-icon"
-                src="https://api.mcsrvstat.us/icon/apo2073.feathermc.gg"
-                alt="서버 아이콘">
-            <div id="serverInfo" class="server-info"></div>
-            <script>
-                const serverIp = 'apo2073.feathermc.gg';
-                const serverPort = '25565';
-                const serverIconElement = document.getElementById('serverIcon');
-                const serverInfoElement = document.getElementById('serverInfo');
-
-                function queryServer() {
-                    const url = `https://api.mcsrvstat.us/2/${serverIp}:${serverPort}`;
-
-                    fetch(url)
-                        .then(response => response.json())
-                        .then(data => {
-                            if (data.online) {
-                                serverInfoElement.innerHTML = `
-                                    <h3>서버 상태: 온라인</h3>
-                                    <h3>온라인 플레이어 수: ${data.players.online}/${data.players.max}</h3>
-                                    <h3>서버 버전: ${data.version}</h3>
-                                `;
-                            } else {
-                                serverInfoElement.innerHTML = `
-                                    <h3>서버 상태: 오프라인</h3>
-                                `;
-                            }
-                        })
-                        .catch(error => {
-                            serverInfoElement.innerHTML = '<p class="error-message">서버 정보를 가져오는 중 오류가 발생했습니다.</p>';
-                            console.error('서버 정보를 가져오는 중 오류:', error);
-                        });
-                }
-                queryServer();
-                setInterval(queryServer, 60000);
-            </script>
+                <img id="serverIcon" class="server-icon" src="https://api.mcsrvstat.us/icon/apo2073.feathermc.gg" alt="서버 아이콘">
+                <div id="serverInfo" class="server-info"></div>
             </div>
 
             <div class="aweek-server-category" style="margin-top: 20px;">
                 <h2>Aweek</h2>
-            <img
-                id="serverIcon2"
-                class="server-icon"
-                src="https://api.mcsrvstat.us/icon/Aweek.feathermc.gg"
-                alt="서버 아이콘">
-            <div id="serverInfo2" class="server-info"></div>
-            <script>
-                const serverIp2 = 'Aweek.feathermc.gg';
-                const serverPort2 = '25565';
-                const serverIconElement2 = document.getElementById('serverIcon2');
-                const serverInfoElement2 = document.getElementById('serverInfo2');
-
-                function queryServer2() {
-                    const url2 = `https://api.mcsrvstat.us/2/${serverIp2}:${serverPort2}`;
-
-                    fetch(url2)
-                        .then(response => response.json())
-                        .then(data => {
-                            if (data.online) {
-                                serverInfoElement2.innerHTML = `
-                                    <h3>서버 상태: 온라인</h3>
-                                    <h3>온라인 플레이어 수: ${data.players.online}/${data.players.max}</h3>
-                                    <h3>서버 버전: ${data.version}</h3>
-                                `;
-                            } else {
-                                serverInfoElement2.innerHTML = `
-                                    <h3>서버 상태: 오프라인</h3>
-                                `;
-                            }
-                        })
-                        .catch(error => {
-                            serverInfoElement2.innerHTML = '<p class="error-message">서버 정보를 가져오는 중 오류가 발생했습니다.</p>';
-                            console.error('서버 정보를 가져오는 중 오류:', error);
-                        });
-                }
-                queryServer2();
-                setInterval(queryServer2, 60000);
-            </script>
+                <img id="serverIcon2" class="server-icon" src="https://api.mcsrvstat.us/icon/Aweek.feathermc.gg" alt="서버 아이콘">
+                <div id="serverInfo2" class="server-info"></div>
             </div>
         </div>
-    <div style="text-align: center; margin-top: 20px;">
-        <a href="Info.html" style="text-decoration: none; background-color: #4CAF50; padding: 10px 20px; color: white; border-radius: 5px;">Info 페이지로 이동(테스트)</a>
-    </div>    
-        </body>
+        <div class="move-to-info">
+            <a href="Info.html" class="info-link">Info 페이지로 이동(테스트)</a>
+        </div>
+        <script src="Aserver.js"></script>
+    </body>
 </html>
