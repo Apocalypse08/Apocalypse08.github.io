@@ -1,31 +1,114 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>APO2073 플레이어 정보</title>
+    <title>플레이어 정보 가져오기</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f3f3f3;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input[type="text"] {
+            width: 200px;
+            padding: 8px;
+            margin-bottom: 10px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        #playerInfo {
+            margin-top: 20px;
+        }
+
+        img.skin {
+            display: block;
+            margin: 10px auto;
+            border: 2px solid #333;
+            border-radius: 5px;
+        }
+
+        img.cape {
+            display: block;
+            margin: 10px auto;
+            border: 2px solid #555;
+            border-radius: 5px;
+        }
+    </style>
 </head>
 <body>
-    <h1>APO2073 플레이어 정보</h1>
+    <h1>플레이어 정보 가져오기</h1>
+    <label for="playerName">플레이어 닉네임:</label>
+    <input type="text" id="playerName" name="playerName">
+    <button onclick="getPlayerInfo()">조회</button>
+
     <div id="playerInfo"></div>
 
     <script>
-        const playerName = 'APO2073';
-        const mojangApiUrl = `https://api.mojang.com/users/profiles/minecraft/${playerName}`;
+        function getPlayerInfo() {
+            const playerName = document.getElementById('playerName').value;
+            const mojangApiUrl = `https://api.mojang.com/users/profiles/minecraft/${playerName}`;
 
-        fetch(mojangApiUrl)
-            .then(response => response.json())
-            .then(data => {
-                const playerUUID = data.id;
-                const playerSkinUrl = `https://crafatar.com/skins/${playerUUID}`;
-                const playerInfoElement = document.getElementById('playerInfo');
+            fetch(mojangApiUrl)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Mojang API에서 정보를 가져오지 못했습니다.');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    const playerUUID = data.id;
+                    const sessionApiUrl = `https://sessionserver.mojang.com/session/minecraft/profile/${playerUUID}`;
 
-                playerInfoElement.innerHTML = `
-                    <p>플레이어 이름: ${playerName}</p>
-                    <p>플레이어 UUID: ${playerUUID}</p>
-                    <img src="${playerSkinUrl}" alt="플레이어 스킨">
-                    <!-- 기타 필요한 정보들을 여기에 표시 -->
-                `;
-            })
-            .catch(error => console.error('Mojang API에서 정보를 가져오는 중 오류 발생:', error));
+                    fetch(sessionApiUrl)
+                        .then(response => response.json())
+                        .then(playerData => {
+                            const playerInfoElement = document.getElementById('playerInfo');
+                            const skinUrl = JSON.parse(atob(playerData.properties[0].value)).textures.SKIN.url;
+                            const capeUrl = JSON.parse(atob(playerData.properties[0].value)).textures.CAPE.url;
+
+                            playerInfoElement.innerHTML = `
+                                <h3>플레이어 이름: ${playerName}</h3>
+                                <h3>플레이어 UUID: ${playerUUID}</h3>
+                                <h3>플레이어 스킨:</h3>
+                                <img class="skin" src="${skinUrl}" alt="플레이어 스킨" width=auto height="200">
+                                <h3>플레이어 망토:</h3>
+                                <img class="cape" src="${capeUrl}" alt="플레이어 망토" width=auto height="200">
+                            `;
+                        })
+                        .catch(error => {
+                            console.error('플레이어 정보를 가져오는 중 오류 발생:', error);
+                            const playerInfoElement = document.getElementById('playerInfo');
+                            playerInfoElement.textContent = '플레이어 정보를 가져오지 못했습니다.';
+                        });
+                })
+                .catch(error => {
+                    console.error('Mojang API에서 정보를 가져오는 중 오류 발생:', error);
+                    const playerInfoElement = document.getElementById('playerInfo');
+                    playerInfoElement.textContent = '플레이어 정보를 가져오지 못했습니다.';
+                });
+        }
     </script>
 </body>
 </html>
