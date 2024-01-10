@@ -19,10 +19,12 @@
                 })
                 .catch(error => console.error('메시지를 가져오는 중 오류 발생:', error));
         }
+
+        // 페이지 로드 시 자동으로 메시지 가져오기
+        window.onload = fetchMessages;
     </script>
 </head>
 <body>
     <h2>Discord 채널 메시지 조회</h2>
-    <button onclick="fetchMessages()">메시지 가져오기</button>
 </body>
 </html>
