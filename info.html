@@ -2,33 +2,13 @@
 <html>
 <head>
     <title>Minecraft 플레이어 정보</title>
-    <script>
-        function getPlayerInfo() {
-            const playerName = document.getElementById('playerName').value;
-            const uuidUrl = `https://api.mojang.com/users/profiles/minecraft/${playerName}`;
-            
-            fetch(uuidUrl)
-                .then(response => response.json())
-                .then(data => {
-                    const playerUUID = data.id;
-                    const playerInfoUrl = `https://sessionserver.mojang.com/session/minecraft/profile/${playerUUID}`;
-                    
-                    fetch(playerInfoUrl)
-                        .then(response => response.json())
-                        .then(playerData => {
-                            console.log(playerData); // 플레이어 정보 출력 (콘솔에)
-                            // 여기서 필요한 정보를 가지고 원하는 대로 처리합니다.
-                        })
-                        .catch(error => console.error('플레이어 정보를 가져오는 중 오류 발생:', error));
-                })
-                .catch(error => console.error('UUID를 가져오는 중 오류 발생:', error));
-        }
-    </script>
 </head>
 <body>
     <h2>Minecraft 플레이어 정보 조회</h2>
-    <label for="playerName">플레이어 닉네임:</label>
-    <input type="text" id="playerName" name="playerName">
-    <button onclick="getPlayerInfo()">조회</button>
+    <form action="getPlayerInfo.php" method="post">
+        <label for="playerName">플레이어 닉네임:</label>
+        <input type="text" name="playerName" required>
+        <button type="submit">조회</button>
+    </form>
 </body>
 </html>
