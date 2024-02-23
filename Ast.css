@@ -82,12 +82,12 @@ body {
     border-radius: 5px;
 }
 
-.move-to-info {
+.move-to-test {
     text-align: center;
     margin-top: 20px;
 }
 
-.info-link {
+.test-link {
     text-decoration: none;
     background-color: #FFF000;
     padding: 10px 20px;
