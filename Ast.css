@@ -81,16 +81,3 @@ body {
     color: white;
     border-radius: 5px;
 }
-
-.move-to-test {
-    text-align: center;
-    margin-top: 20px;
-}
-
-.test-link {
-    text-decoration: none;
-    background-color: #FFF000;
-    padding: 10px 20px;
-    color: white;
-    border-radius: 5px;
-}
