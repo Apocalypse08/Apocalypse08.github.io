@@ -81,3 +81,16 @@ body {
     color: white;
     border-radius: 5px;
 }
+
+.move-to-info {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.info-link {
+    text-decoration: none;
+    background-color: #FFF000;
+    padding: 10px 20px;
+    color: white;
+    border-radius: 5px;
+}
