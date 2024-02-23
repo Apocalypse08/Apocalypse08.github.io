@@ -1,115 +1,45 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>플레이어 정보 가져오기</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f3f3f3;
-            margin: 0;
-            padding: 20px;
-        }
+<canvas id="canvas" style="width: 100%; height: 100vh"></canvas>
 
-        h1 {
-            text-align: center;
-        }
+<script type="module">
 
-        label {
-            display: block;
-            margin-bottom: 5px;
-        }
+    import { createScene } from "https://cdn.jsdelivr.net/gh/cosmetica-cc/skinview5d@1.0/src/DemoScenes.js"; // import the scene creator helper function
+    import { poses } from "https://cdn.jsdelivr.net/gh/cosmetica-cc/skinview5d@1.0/poseloader.js"; // import demo poses
 
-        input[type="text"] {
-            width: 200px;
-            padding: 8px;
-            margin-bottom: 10px;
-        }
+    const user = "APO2073";
 
-        button {
-            padding: 10px 20px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
+    fetch("https://api.cosmetica.cc/v2/get/info?user=" + user).then(r => r.json()).then(async response => { // get Cosmetica data for user. the scene creator helper uses data presented in the same format as the Cosmetica API, so this is the easiest way to do it. (Nothing stopping you from just replicating the format with your own data, or not using the scene creator helper and just creating a scene directly)
+        const scene = await createScene({
+            pose: poses.starjump, // from the poseloader demo library
+            playerRotation: [0, 0.5, 0], // all angles are in radians (x, y, z)
+            camera: [10, 5, 50], // position of camera
+            cameraPostRotation: [0, 0, 0], // after camera has been positioned it will point to the player, you can then adjust this angle with cameraPostRotation
+            fov: 60,
+            lights: [
+                {
+                    type: "ambient", // "ambient" illuminates everything in the scene evenly
+                    intensity: 0.4, // 
+                    position: [0, 0, 0]
+                },
+                {
+                    type: "point", // "point" illuminates like a lightbulb
+                    intensity: 0.6,
+                    position: "camera" // setting position to "camera" will have the light follow the camera. Only useful for "point" lights
+                }
+            ],
+            elytraSpread: 1.5, // how far to spread elytra. 0 is closed, ~1.5 is open
+            fixedPano: false // setting to false will make the background panorama ignore the camera's perspective
+        },
+        {
+            ...response, // pipe in data from the Cosmetica api
+            canvas: document.getElementById("canvas"), // specify canvas to control
+            panorama: `https://cosmetica.cc/page/panoramas/${response.panorama}.jpg`, // override the "panorama" field to use an actual URL rather t han just the numeric ID of the panorama
+            antialias: true, // enables FXAA
+            backEquipment: "elytra", // "none" will hide all back equipment, "elytra" will show elytra, anything else will show cape
+            renderCallback: scene => { // called every time scene is preparing to render a frame
+                if (!scene.player) return; // stop if the player hasn't been added to the scene yet
+                scene.player.player.root.rotateY(0.02); // slowly rotate the player
+            }
+        });
+    });
 
-        button:hover {
-            background-color: #45a049;
-        }
-
-        #playerInfo {
-            margin-top: 20px;
-            text-aligen: center;
-        }
-
-        img.skin {
-            display: block;
-            margin: 10px auto;
-            border: 2px solid #333;
-            border-radius: 5px;
-        }
-
-        img.cape {
-            display: block;
-            margin: 10px auto;
-            border: 2px solid #555;
-            border-radius: 5px;
-        }
-    </style>
-</head>
-<body>
-    <h1>플레이어 정보 가져오기</h1>
-    <label for="playerName">플레이어 닉네임:</label>
-    <input type="text" id="playerName" name="playerName">
-    <button onclick="getPlayerInfo()">조회</button>
-
-    <div id="playerInfo"></div>
-
-    <script>
-        function getPlayerInfo() {
-            const playerName = document.getElementById('playerName').value;
-            const mojangApiUrl = `https://api.mojang.com/users/profiles/minecraft/${playerName}`;
-
-            fetch(mojangApiUrl)
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Mojang API에서 정보를 가져오지 못했습니다.');
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    const playerUUID = data.id;
-                    const sessionApiUrl = `https://sessionserver.mojang.com/session/minecraft/profile/${playerUUID}`;
-
-                    fetch(sessionApiUrl)
-                        .then(response => response.json())
-                        .then(playerData => {
-                            const playerInfoElement = document.getElementById('playerInfo');
-                            const skinUrl = JSON.parse(atob(playerData.properties[0].value)).textures.SKIN.url;
-                            const capeUrl = JSON.parse(atob(playerData.properties[0].value)).textures.CAPE.url;
-
-                            playerInfoElement.innerHTML = `
-                                <h3>플레이어 이름: ${playerName}</h3>
-                                <h3>플레이어 UUID: ${playerUUID}</h3>
-                                <h3>플레이어 스킨:</h3>
-                                <img class="skin" src="${skinUrl}" alt="플레이어 스킨" width=auto height="200">
-                                <h3>플레이어 망토:</h3>
-                                <img class="cape" src="${capeUrl}" alt="플레이어 망토" width=auto height="200">
-                            `;
-                        })
-                        .catch(error => {
-                            console.error('플레이어 정보를 가져오는 중 오류 발생:', error);
-                            const playerInfoElement = document.getElementById('playerInfo');
-                            playerInfoElement.textContent = '플레이어 정보를 가져오지 못했습니다.';
-                        });
-                })
-                .catch(error => {
-                    console.error('Mojang API에서 정보를 가져오는 중 오류 발생:', error);
-                    const playerInfoElement = document.getElementById('playerInfo');
-                    playerInfoElement.textContent = '플레이어 정보를 가져오지 못했습니다.';
-                });
-        }
-    </script>
-</body>
-</html>
+</script>
