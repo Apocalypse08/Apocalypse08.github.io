@@ -37,7 +37,7 @@
             backEquipment: "cape", // "none" will hide all back equipment, "elytra" will show elytra, anything else will show cape
             renderCallback: scene => { // called every time scene is preparing to render a frame
                 if (!scene.player) return; // stop if the player hasn't been added to the scene yet
-                scene.player.player.root.rotateY(0.02); // slowly rotate the player
+                // scene.player.player.root.rotateY(0.02); // slowly rotate the player
             }
         });
     });
