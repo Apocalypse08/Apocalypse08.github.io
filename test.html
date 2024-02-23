@@ -9,7 +9,7 @@
 
     fetch("https://api.cosmetica.cc/v2/get/info?user=" + user).then(r => r.json()).then(async response => { // get Cosmetica data for user. the scene creator helper uses data presented in the same format as the Cosmetica API, so this is the easiest way to do it. (Nothing stopping you from just replicating the format with your own data, or not using the scene creator helper and just creating a scene directly)
         const scene = await createScene({
-            pose: poses.starjump, // from the poseloader demo library
+            pose: poses.standing, // from the poseloader demo library
             playerRotation: [0, 0.5, 0], // all angles are in radians (x, y, z)
             camera: [10, 5, 50], // position of camera
             cameraPostRotation: [0, 0, 0], // after camera has been positioned it will point to the player, you can then adjust this angle with cameraPostRotation
@@ -34,7 +34,7 @@
             canvas: document.getElementById("canvas"), // specify canvas to control
             panorama: `https://cosmetica.cc/page/panoramas/${response.panorama}.jpg`, // override the "panorama" field to use an actual URL rather t han just the numeric ID of the panorama
             antialias: true, // enables FXAA
-            backEquipment: "elytra", // "none" will hide all back equipment, "elytra" will show elytra, anything else will show cape
+            backEquipment: "cape", // "none" will hide all back equipment, "elytra" will show elytra, anything else will show cape
             renderCallback: scene => { // called every time scene is preparing to render a frame
                 if (!scene.player) return; // stop if the player hasn't been added to the scene yet
                 scene.player.player.root.rotateY(0.02); // slowly rotate the player
