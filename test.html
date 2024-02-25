@@ -34,7 +34,7 @@
             canvas: document.getElementById("canvas"), // specify canvas to control
             panorama: `https://cosmetica.cc/page/panoramas/${response.panorama}.jpg`, // override the "panorama" field to use an actual URL rather t han just the numeric ID of the panorama
             antialias: true, // enables FXAA
-            backEquipment: "cape", // "none" will hide all back equipment, "elytra" will show elytra, anything else will show cape
+            backEquipment: "elytra", // "none" will hide all back equipment, "elytra" will show elytra, anything else will show cape
             renderCallback: scene => { // called every time scene is preparing to render a frame
                 if (!scene.player) return; // stop if the player hasn't been added to the scene yet
                 // scene.player.player.root.rotateY(0.02); // slowly rotate the player
